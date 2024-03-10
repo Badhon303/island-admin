@@ -14,7 +14,7 @@ export default function Home() {
     <div className="flex">
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <div className="flex-1">
-        <Header toggleSidebar={toggleSidebar} />
+        <Header toggleSidebar={toggleSidebar} isOpen={isOpen} />
         <MainContent isOpen={isOpen} />
       </div>
     </div>
