@@ -33,7 +33,7 @@ const Header = ({ toggleSidebar, isOpen }) => {
           Brand
         </Link>
         <div className="sm:order-3 flex items-center gap-x-2">
-          <div className="sm:hidden">
+          <div className="sm:hidden flex item-center">
             <HeaderDropdown />
           </div>
           <div className="flex items-center gap-2">

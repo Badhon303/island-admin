@@ -24,25 +24,25 @@ const Menus = [
 const Sidebar = ({ isOpen }) => {
   return (
     <aside
-      className={`px-2 py-6 ${
+      className={`hidden sm:block px-2 py-6 ${
         isOpen ? "w-64" : "w-20"
-      } min-h-[98vh] bg-background relative duration-300 m-2 rounded-3xl shadow-basic`}
+      } min-h-[98.8svh] bg-background relative duration-300 m-2 rounded-3xl shadow-basic`}
     >
       <div>
-        <div className="px-3 font-medium text-sm text-[#6c757d] opacity-80">
+        <div className="px-3 font-medium text-sm text-[#6c757d] opacity-80 dark:text-white">
           Main
         </div>
         <ul className="py-3">
           {Menus.map((menu, index) => (
             <div key={index} className="py-1">
               <li
-                className={`py-2 text-sm text-[#5b5b5b] flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 rounded-md`}
+                className={`py-2 text-sm text-[#5b5b5b] flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md`}
               >
-                <span className="ps-4 text-2xl block float-left">
+                <span className="ps-5 text-2xl block float-left">
                   <RiDashboardFill />
                 </span>
                 <span
-                  className={`text-base font-medium flex-1 duration-500 ${
+                  className={`text-base font-medium flex-1 ${
                     !isOpen && "hidden"
                   }`}
                 >
