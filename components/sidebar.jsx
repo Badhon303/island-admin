@@ -1,24 +1,44 @@
 import { RiDashboardFill } from "react-icons/ri"
-import { FaChevronDown } from "react-icons/fa"
+import {
+  MdOutlineDashboard,
+  MdOutlinePrecisionManufacturing,
+  MdOutlineInventory,
+  MdGroups,
+  MdMoney,
+  MdOutlinePersonOutline,
+  MdLogout,
+} from "react-icons/md"
 
 const Menus = [
-  { title: "Dashboard" },
-  { title: "Pages" },
-  // { tithe: "Media", spacing: true },
-  // {
-  //   title: "Projects",
-  //   submenu: true,
-  //   submenuItems: [
-  //     { title: "Submenu 1" },
-  //     { title: "Submenu 2" },
-  //     { title: "Submenu 3" },
-  //   ],
-  // },
-  { title: "Analytics" },
-  { title: "Inbox" },
-  { title: "Profile" },
-  { title: "Settings" },
-  { title: "Logout" },
+  {
+    objective: "Main",
+    items: [{ title: "Dashboard", icon: <MdOutlineDashboard />, active: true }],
+  },
+  {
+    objective: "Apps",
+    items: [
+      {
+        title: "Production",
+        icon: <MdOutlinePrecisionManufacturing />,
+        active: false,
+      },
+      // { tithe: "Media", spacing: true },
+      // {
+      //   title: "Projects",
+      //   submenu: true,
+      //   submenuItems: [
+      //     { title: "Submenu 1" },
+      //     { title: "Submenu 2" },
+      //     { title: "Submenu 3" },
+      //   ],
+      // },
+      { title: "Inventory", icon: <MdOutlineInventory />, active: false },
+      { title: "Dealer", icon: <MdGroups />, active: false },
+      { title: "Sales", icon: <MdMoney />, active: false },
+      { title: "Employee", icon: <MdOutlinePersonOutline />, active: false },
+      { title: "Logout", icon: <MdLogout />, active: false },
+    ],
+  },
 ]
 
 const Sidebar = ({ isOpen }) => {
@@ -26,32 +46,38 @@ const Sidebar = ({ isOpen }) => {
     <aside
       className={`hidden sm:block px-2 py-6 ${
         isOpen ? "w-64" : "w-20"
-      } min-h-[98.8svh] bg-background relative duration-300 m-2 rounded-3xl shadow-basic`}
+      } min-h-[98.3vh] bg-background relative duration-300 m-2 rounded-3xl shadow-basic`}
     >
       <div>
-        <div className="px-3 font-medium text-sm text-[#6c757d] opacity-80 dark:text-white">
-          Main
-        </div>
-        <ul className="py-3">
-          {Menus.map((menu, index) => (
-            <div key={index} className="py-1">
-              <li
-                className={`py-2 text-sm text-[#5b5b5b] flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md`}
-              >
-                <span className="ps-5 text-2xl block float-left">
-                  <RiDashboardFill />
-                </span>
-                <span
-                  className={`text-base font-medium flex-1 ${
-                    !isOpen && "hidden"
-                  }`}
-                >
-                  {menu.title}
-                </span>
-              </li>
+        {Menus.map((menu, index) => (
+          <div key={index}>
+            <div className="px-3 font-medium text-sm text-[#6c757d] opacity-80 dark:text-white">
+              {menu.objective}
             </div>
-          ))}
-        </ul>
+            <ul className="py-3">
+              {menu.items.map((menuItem, index) => (
+                <div key={index} className="py-1">
+                  <li
+                    className={`py-2 text-sm ${
+                      menuItem.active
+                        ? "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                        : "text-[#5b5b5b]"
+                    } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
+                      isOpen && "hover:ps-3"
+                    }`}
+                  >
+                    <span className="ps-5 text-2xl float-left">
+                      {menuItem.icon}
+                    </span>
+                    <span className={`text-base flex-1 ${!isOpen && "hidden"}`}>
+                      {menuItem.title}
+                    </span>
+                  </li>
+                </div>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </aside>
   )
