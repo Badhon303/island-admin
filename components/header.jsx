@@ -11,7 +11,7 @@ const Header = ({ toggleSidebar, isOpen }) => {
           className="sm:order-1 flex items-center text-xl font-semibold"
           href="#"
         >
-          <button onClick={toggleSidebar} className="me-4">
+          <button onClick={toggleSidebar} className="hidden sm:block me-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

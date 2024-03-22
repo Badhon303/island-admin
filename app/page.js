@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="flex">
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex-1">
+      <div className="flex-1 ms-2">
         <Header toggleSidebar={toggleSidebar} isOpen={isOpen} />
         <MainContent isOpen={isOpen} />
       </div>
