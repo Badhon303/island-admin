@@ -1,5 +1,5 @@
 import Link from "next/link"
-import HeaderDropdown from "./ui/header-dropdown"
+import HeaderDropdown from "@/components/header-dropdown"
 import { UserNav } from "@/components/user-nav"
 import { ModeToggle } from "@/components/theme-btn"
 

@@ -1,28 +1,20 @@
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 const Test = () => {
   return (
-    <Collapsible>
-      <CollapsibleTrigger>Can I use this in my project?</CollapsibleTrigger>
-      <CollapsibleContent className="CollapsibleContent">
-        <div>
-          Yes. Free to use for personal and commercial projects. No attribution
-          required.
-        </div>
-        <div>
-          Yes. Free to use for personal and commercial projects. No attribution
-          required.
-        </div>
-        <div>
-          Yes. Free to use for personal and commercial projects. No attribution
-          required.
-        </div>
-      </CollapsibleContent>
-    </Collapsible>
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+        <AccordionContent>
+          Yes. It adheres to the WAI-ARIA design pattern.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   )
 }
 

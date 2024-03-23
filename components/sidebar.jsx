@@ -1,13 +1,5 @@
-import {
-  MdOutlineDashboard,
-  MdOutlinePrecisionManufacturing,
-  MdOutlineInventory,
-  MdGroups,
-  MdMoney,
-  MdOutlinePersonOutline,
-  MdLogout,
-  MdExpandMore,
-} from "react-icons/md"
+import { MdExpandMore } from "react-icons/md"
+import styles from "./sidebar.module.css"
 
 import {
   Tooltip,
@@ -22,74 +14,18 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 
-const Menus = [
-  {
-    objective: "Main",
-    items: [{ title: "Dashboard", icon: <MdOutlineDashboard />, active: true }],
-  },
-  {
-    objective: "Apps",
-    items: [
-      {
-        title: "Production",
-        icon: <MdOutlinePrecisionManufacturing />,
-        active: false,
-        submenu: true,
-        submenuItems: [
-          { title: "Submenu 1", active: false },
-          { title: "Submenu 2", active: false },
-          { title: "Submenu 3", active: false },
-        ],
-      },
-      {
-        title: "Inventory",
-        icon: <MdOutlineInventory />,
-        active: false,
-        submenu: true,
-        submenuItems: [
-          { title: "Submenu 1", active: false },
-          { title: "Submenu 2", active: false },
-          { title: "Submenu 3", active: false },
-        ],
-      },
-      {
-        title: "Dealer",
-        icon: <MdGroups />,
-        active: false,
-        submenu: true,
-        submenuItems: [
-          { title: "Submenu 1", active: false },
-          { title: "Submenu 2", active: false },
-          { title: "Submenu 3", active: false },
-        ],
-      },
-      {
-        title: "Sales",
-        icon: <MdMoney />,
-        active: false,
-        submenu: true,
-        submenuItems: [
-          { title: "Submenu 1", active: false },
-          { title: "Submenu 2", active: false },
-          { title: "Submenu 3", active: false },
-        ],
-      },
-      { title: "Employee", icon: <MdOutlinePersonOutline />, active: false },
-      { title: "Logout", icon: <MdLogout />, active: false },
-    ],
-  },
-]
+import { Menus } from "@/lib/sidebar-items"
 
 const Sidebar = ({ isOpen }) => {
   return (
     <aside
       className={`hidden sm:block px-2 py-6 ${
         isOpen ? "w-64" : "w-20"
-      } min-h-[calc(100svh-1rem)] bg-background relative duration-300 my-2 ms-2 rounded-3xl shadow-basic`}
+      } h-[calc(100svh-1rem)] bg-background relative duration-300 my-2 ms-2 rounded-3xl shadow-basic`}
     >
-      <div>
+      <div className="h-full overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:hover:w-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200">
         {Menus.map((menu, index) => (
-          <div key={index}>
+          <div key={index} className="px-1">
             <div className="px-3 font-medium text-sm text-[#6c757d] opacity-80 dark:text-white">
               {menu.objective}
             </div>
@@ -121,7 +57,9 @@ const Sidebar = ({ isOpen }) => {
                                 {menuItem.title}
                               </span>
                               {menuItem.submenu && (
-                                <MdExpandMore className="text-2xl ms-auto me-2" />
+                                <MdExpandMore
+                                  className={`text-2xl ms-auto me-2 ${styles.iconRotate}`}
+                                />
                               )}
                             </li>
                           </CollapsibleTrigger>
@@ -145,7 +83,9 @@ const Sidebar = ({ isOpen }) => {
                       </div>
 
                       {menuItem.submenu && isOpen && (
-                        <CollapsibleContent className="CollapsibleContent pt-1">
+                        <CollapsibleContent
+                          className={`${styles.CollapsibleContent} pt-1`}
+                        >
                           <ul className="ms-8 border-l-2 border-grey-400">
                             {menuItem.submenuItems.map((subMenuItem, index) => (
                               <div key={index} className="ps-2">
@@ -173,7 +113,22 @@ const Sidebar = ({ isOpen }) => {
                         className={`${isOpen ? "hidden" : "block"} ms-1`}
                         side="right"
                       >
-                        <p>{menuItem.title}</p>
+                        {!menuItem.submenu ? (
+                          <p className="cursor-pointer">{menuItem.title}</p>
+                        ) : (
+                          <ul>
+                            {menuItem.submenuItems.map((subMenuItem, index) => (
+                              <div key={index}>
+                                <li
+                                  onClick={() => setIsDropdownOpen(false)}
+                                  className={`py-2 flex items-center gap-x-4 cursor-pointer`}
+                                >
+                                  <span>{subMenuItem.title}</span>
+                                </li>
+                              </div>
+                            ))}
+                          </ul>
+                        )}
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
