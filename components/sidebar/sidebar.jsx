@@ -2,7 +2,7 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import styles from "./sidebar.module.css"
 
-import { MdExpandMore } from "react-icons/md"
+import { MdExpandMore, MdLogout } from "react-icons/md"
 import {
   Tooltip,
   TooltipContent,
@@ -25,9 +25,9 @@ const Sidebar = ({ isSidebarOpen }) => {
     <aside
       className={`hidden sm:block px-2 py-6 ${
         isSidebarOpen ? "w-64" : "w-20"
-      } h-[calc(100svh-1rem)] bg-background relative duration-300 my-2 ms-2 rounded-3xl shadow-basic`}
+      } h-[calc(100svh-1rem)] bg-background duration-200 my-2 ms-2 rounded-3xl shadow-basic`}
     >
-      <div className="h-full overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:hover:w-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200">
+      <div className="flex flex-col h-full w-full overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:hover:w-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200">
         {Menus.map((menu, index) => (
           <div key={index} className="px-1">
             <div className="px-3 font-medium text-sm text-[#6c757d] opacity-80 dark:text-white">
@@ -41,23 +41,17 @@ const Sidebar = ({ isSidebarOpen }) => {
                       <div className="text-start py-1">
                         {isSidebarOpen ? (
                           menuItem.submenu ? (
-                            <CollapsibleTrigger className="w-full">
+                            <CollapsibleTrigger className="w-full text-start">
                               <li
                                 className={`py-2 ${
                                   menuItem.active &&
                                   "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                } text-sm flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                  isSidebarOpen && "hover:ps-2"
-                                }`}
+                                } text-sm flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 hover:ps-2`}
                               >
                                 <span className="ps-4 text-2xl float-left">
                                   {menuItem.icon}
                                 </span>
-                                <span
-                                  className={`text-base flex-1${
-                                    !isSidebarOpen && "hidden"
-                                  }`}
-                                >
+                                <span className={`text-base flex-1`}>
                                   {menuItem.title}
                                 </span>
                                 <MdExpandMore
@@ -71,18 +65,12 @@ const Sidebar = ({ isSidebarOpen }) => {
                                 className={`py-2 text-sm ${
                                   menuItem.active &&
                                   "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                  isSidebarOpen && "hover:ps-2"
-                                }`}
+                                } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 hover:ps-2 `}
                               >
                                 <span className="ps-4 text-2xl float-left">
                                   {menuItem.icon}
                                 </span>
-                                <span
-                                  className={`text-base flex-1${
-                                    !isSidebarOpen && "hidden"
-                                  }`}
-                                >
+                                <span className={`text-base flex-1`}>
                                   {menuItem.title}
                                 </span>
                               </li>
@@ -93,12 +81,9 @@ const Sidebar = ({ isSidebarOpen }) => {
                             {menuItem.submenu ? (
                               <li
                                 className={`py-2 text-sm ${
-                                  menuItem.active
-                                    ? "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                    : "text-[#5b5b5b]"
-                                } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                  isSidebarOpen && "hover:ps-2"
-                                }`}
+                                  menuItem.active &&
+                                  "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md hover:ps-2 duration-300`}
                               >
                                 <span className="ps-4 text-2xl float-left">
                                   {menuItem.icon}
@@ -108,12 +93,9 @@ const Sidebar = ({ isSidebarOpen }) => {
                               <Link href={menuItem.href}>
                                 <li
                                   className={`py-2 text-sm ${
-                                    menuItem.active
-                                      ? "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                      : "text-[#5b5b5b]"
-                                  } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                    isSidebarOpen && "hover:ps-2"
-                                  }`}
+                                    menuItem.active &&
+                                    "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                  } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md hover:ps-2 duration-300 `}
                                 >
                                   <span className="ps-4 text-2xl float-left">
                                     {menuItem.icon}
@@ -137,9 +119,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                                     className={`py-2 text-sm ${
                                       subMenuItem.active &&
                                       "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                    } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                      isSidebarOpen && "hover:ps-2"
-                                    }`}
+                                    } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 hover:ps-2 `}
                                   >
                                     <span
                                       className={`text-base text-start flex-1 ps-8`}
@@ -187,6 +167,52 @@ const Sidebar = ({ isSidebarOpen }) => {
             </ul>
           </div>
         ))}
+        <div className="px-1 mt-auto">
+          <div className="px-1 font-medium text-sm text-[#6c757d] opacity-80 dark:text-white">
+            Others
+          </div>
+          <ul>
+            <TooltipProvider delayDuration={100} skipDelayDuration={100}>
+              <Tooltip>
+                <div className="text-start py-1">
+                  {isSidebarOpen ? (
+                    <Link href={""}>
+                      <li
+                        className={`py-2 text-sm flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md hover:ps-2 duration-300`}
+                      >
+                        <span className="ps-4 text-2xl float-left">
+                          <MdLogout />
+                        </span>
+                        <span className={`text-base flex-1`}>Log Out</span>
+                      </li>
+                    </Link>
+                  ) : (
+                    <TooltipTrigger className="w-full">
+                      <Link href={""}>
+                        <li
+                          className={`py-2 text-sm flex items-center cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md`}
+                        >
+                          <span className="ps-4 text-2xl float-left">
+                            <MdLogout />
+                          </span>
+                        </li>
+                      </Link>
+                    </TooltipTrigger>
+                  )}
+                </div>
+
+                <TooltipContent
+                  className={`${isSidebarOpen ? "hidden" : "block"} ms-1`}
+                  side="right"
+                >
+                  <Link href={""}>
+                    <p className="cursor-pointer">Log Out</p>
+                  </Link>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </ul>
+        </div>
       </div>
     </aside>
   )
