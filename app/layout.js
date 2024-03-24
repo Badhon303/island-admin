@@ -1,5 +1,5 @@
 import { Poppins as FontSans } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/providers/theme-provider"
 import "./globals.css"
 
 import { cn } from "@/lib/utils"

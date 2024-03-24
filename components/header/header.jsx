@@ -1,9 +1,9 @@
 import Link from "next/link"
-import HeaderDropdown from "@/components/header-dropdown"
-import { UserNav } from "@/components/user-nav"
-import { ModeToggle } from "@/components/theme-btn"
+import HeaderDropdown from "@/components/header/header-dropdown"
+import { UserNav } from "@/components/header/user-nav"
+import { ModeToggle } from "@/components/header/theme-btn"
 
-const Header = ({ toggleSidebar, isOpen }) => {
+const Header = ({ toggleSidebar, isSidebarOpen }) => {
   return (
     <header className="my-2 me-2 bg-background rounded-3xl shadow-basic flex flex-wrap sm:justify-start sm:flex-nowrap text-sm py-4">
       <nav className="mx-auto px-6 flex flex-wrap basis-full items-center justify-between">
@@ -12,7 +12,7 @@ const Header = ({ toggleSidebar, isOpen }) => {
           href="#"
         >
           <button
-            onClick={toggleSidebar}
+            onClick={() => toggleSidebar()}
             className="hidden sm:block me-4 hover:scale-125 duration-300"
           >
             <svg
@@ -26,7 +26,7 @@ const Header = ({ toggleSidebar, isOpen }) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className={`transform transition duration-300 ease-in-out ${
-                isOpen ? "" : "rotate-180"
+                isSidebarOpen ? "" : "rotate-180"
               }`}
             >
               <line x1="19" y1="12" x2="5" y2="12"></line>

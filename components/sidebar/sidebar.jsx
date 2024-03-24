@@ -1,6 +1,8 @@
-import { MdExpandMore } from "react-icons/md"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 import styles from "./sidebar.module.css"
 
+import { MdExpandMore } from "react-icons/md"
 import {
   Tooltip,
   TooltipContent,
@@ -14,13 +16,15 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 
-import { Menus } from "@/lib/sidebar-items"
+import { Routes } from "@/lib/sidebar-items"
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isSidebarOpen }) => {
+  const pathname = usePathname()
+  const Menus = Routes(pathname)
   return (
     <aside
       className={`hidden sm:block px-2 py-6 ${
-        isOpen ? "w-64" : "w-20"
+        isSidebarOpen ? "w-64" : "w-20"
       } h-[calc(100svh-1rem)] bg-background relative duration-300 my-2 ms-2 rounded-3xl shadow-basic`}
     >
       <div className="h-full overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:hover:w-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200">
@@ -35,34 +39,55 @@ const Sidebar = ({ isOpen }) => {
                   <TooltipProvider delayDuration={100} skipDelayDuration={100}>
                     <Tooltip>
                       <div className="text-start py-1">
-                        {isOpen ? (
-                          <CollapsibleTrigger className="w-full">
-                            <li
-                              className={`py-2 text-sm ${
-                                menuItem.active
-                                  ? "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                  : "text-[#5b5b5b]"
-                              } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                isOpen && "hover:ps-2"
-                              }`}
-                            >
-                              <span className="ps-4 text-2xl float-left">
-                                {menuItem.icon}
-                              </span>
-                              <span
-                                className={`text-base flex-1${
-                                  !isOpen && "hidden"
+                        {isSidebarOpen ? (
+                          menuItem.submenu ? (
+                            <CollapsibleTrigger className="w-full">
+                              <li
+                                className={`py-2 ${
+                                  menuItem.active &&
+                                  "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                } text-sm flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
+                                  isSidebarOpen && "hover:ps-2"
                                 }`}
                               >
-                                {menuItem.title}
-                              </span>
-                              {menuItem.submenu && (
+                                <span className="ps-4 text-2xl float-left">
+                                  {menuItem.icon}
+                                </span>
+                                <span
+                                  className={`text-base flex-1${
+                                    !isSidebarOpen && "hidden"
+                                  }`}
+                                >
+                                  {menuItem.title}
+                                </span>
                                 <MdExpandMore
                                   className={`text-2xl ms-auto me-2 ${styles.iconRotate}`}
                                 />
-                              )}
-                            </li>
-                          </CollapsibleTrigger>
+                              </li>
+                            </CollapsibleTrigger>
+                          ) : (
+                            <Link href={menuItem.href}>
+                              <li
+                                className={`py-2 text-sm ${
+                                  menuItem.active &&
+                                  "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
+                                  isSidebarOpen && "hover:ps-2"
+                                }`}
+                              >
+                                <span className="ps-4 text-2xl float-left">
+                                  {menuItem.icon}
+                                </span>
+                                <span
+                                  className={`text-base flex-1${
+                                    !isSidebarOpen && "hidden"
+                                  }`}
+                                >
+                                  {menuItem.title}
+                                </span>
+                              </li>
+                            </Link>
+                          )
                         ) : (
                           <TooltipTrigger className="w-full">
                             <li
@@ -71,7 +96,7 @@ const Sidebar = ({ isOpen }) => {
                                   ? "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
                                   : "text-[#5b5b5b]"
                               } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                isOpen && "hover:ps-2"
+                                isSidebarOpen && "hover:ps-2"
                               }`}
                             >
                               <span className="ps-4 text-2xl float-left">
@@ -82,35 +107,36 @@ const Sidebar = ({ isOpen }) => {
                         )}
                       </div>
 
-                      {menuItem.submenu && isOpen && (
+                      {menuItem.submenu && isSidebarOpen && (
                         <CollapsibleContent
                           className={`${styles.CollapsibleContent} pt-1`}
                         >
                           <ul className="ms-7 border-l-2 border-grey-400">
                             {menuItem.submenuItems.map((subMenuItem, index) => (
                               <div key={index} className="ps-2">
-                                <li
-                                  className={`py-2 text-sm ${
-                                    subMenuItem.active
-                                      ? "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                      : "text-[#5b5b5b]"
-                                  } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                    isOpen && "hover:ps-2"
-                                  }`}
-                                >
-                                  <span
-                                    className={`text-base text-start flex-1 ps-8`}
+                                <Link href={subMenuItem.href}>
+                                  <li
+                                    className={`py-2 text-sm ${
+                                      subMenuItem.active &&
+                                      "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                    } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
+                                      isSidebarOpen && "hover:ps-2"
+                                    }`}
                                   >
-                                    {subMenuItem.title}
-                                  </span>
-                                </li>
+                                    <span
+                                      className={`text-base text-start flex-1 ps-8`}
+                                    >
+                                      {subMenuItem.title}
+                                    </span>
+                                  </li>
+                                </Link>
                               </div>
                             ))}
                           </ul>
                         </CollapsibleContent>
                       )}
                       <TooltipContent
-                        className={`${isOpen ? "hidden" : "block"} ms-1`}
+                        className={`${isSidebarOpen ? "hidden" : "block"} ms-1`}
                         side="right"
                       >
                         {!menuItem.submenu ? (

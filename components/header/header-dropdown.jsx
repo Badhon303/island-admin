@@ -1,13 +1,15 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
+
 import { MdExpandMore } from "react-icons/md"
-import styles from "./sidebar.module.css"
+import styles from "@/components/sidebar/sidebar.module.css"
 
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -19,11 +21,12 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 
-import { Menus } from "@/lib/sidebar-items"
+import { Routes } from "@/lib/sidebar-items"
 
 const HeaderDropdown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-
+  const pathname = usePathname()
+  const Menus = Routes(pathname)
   return (
     <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
       <DropdownMenuTrigger>
@@ -72,29 +75,49 @@ const HeaderDropdown = () => {
             <DropdownMenuSeparator />
             {menu.items.map((menuItem, index) => (
               <Collapsible className="w-full" key={index}>
-                <CollapsibleTrigger className="w-full text-start">
-                  <li
-                    className={`py-2 text-sm   
+                {menuItem.submenu ? (
+                  <CollapsibleTrigger className="w-full text-start">
+                    <li
+                      className={`py-2 text-sm   
                     flex items-center gap-x-4 cursor-pointer`}
-                  >
-                    <span className="ps-5 text-2xl float-left">
-                      {menuItem.icon}
-                    </span>
-                    <span
-                      onClick={() =>
-                        !menuItem.submenu && setIsDropdownOpen(false)
-                      }
-                      className={`text-base flex-1`}
                     >
-                      {menuItem.title}
-                    </span>
-                    {menuItem.submenu && (
+                      <span className="ps-5 text-2xl float-left">
+                        {menuItem.icon}
+                      </span>
+                      <span
+                        onClick={() =>
+                          !menuItem.submenu && setIsDropdownOpen(false)
+                        }
+                        className={`text-base flex-1`}
+                      >
+                        {menuItem.title}
+                      </span>
+
                       <MdExpandMore
                         className={`text-2xl ms-auto me-2 ${styles.iconRotate}`}
                       />
-                    )}
-                  </li>
-                </CollapsibleTrigger>
+                    </li>
+                  </CollapsibleTrigger>
+                ) : (
+                  <Link href={menuItem.href}>
+                    <li
+                      className={`py-2 text-sm   
+                    flex items-center gap-x-4 cursor-pointer`}
+                    >
+                      <span className="ps-5 text-2xl float-left">
+                        {menuItem.icon}
+                      </span>
+                      <span
+                        onClick={() =>
+                          !menuItem.submenu && setIsDropdownOpen(false)
+                        }
+                        className={`text-base flex-1`}
+                      >
+                        {menuItem.title}
+                      </span>
+                    </li>
+                  </Link>
+                )}
                 {menuItem.submenu && (
                   <CollapsibleContent
                     className={`${styles.CollapsibleContent} pt-1 ps-1`}
@@ -102,16 +125,18 @@ const HeaderDropdown = () => {
                     <ul className="ms-7 border-l-2 border-grey-400">
                       {menuItem.submenuItems.map((subMenuItem, index) => (
                         <div key={index} className="ps-1">
-                          <li
-                            onClick={() => setIsDropdownOpen(false)}
-                            className={`py-2 text-sm flex items-center gap-x-4 cursor-pointer`}
-                          >
-                            <span
-                              className={`text-base text-start flex-1 ps-8`}
+                          <Link href={subMenuItem.href}>
+                            <li
+                              onClick={() => setIsDropdownOpen(false)}
+                              className={`py-2 text-sm flex items-center gap-x-4 cursor-pointer`}
                             >
-                              {subMenuItem.title}
-                            </span>
-                          </li>
+                              <span
+                                className={`text-base text-start flex-1 ps-8`}
+                              >
+                                {subMenuItem.title}
+                              </span>
+                            </li>
+                          </Link>
                         </div>
                       ))}
                     </ul>
