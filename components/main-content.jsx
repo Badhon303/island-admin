@@ -1,6 +1,6 @@
-const MainContent = ({ isOpen }) => {
+const MainContent = () => {
   return (
-    <div className="h-[90vh] me-1">
+    <div className="h-[87vh] me-1">
       <div className="h-full overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:hover:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-400">
         <div className="pe-1">
           <div className={`p-6 bg-background rounded-3xl mb-2 shadow-basic`}>
