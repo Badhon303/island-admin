@@ -45,7 +45,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                               <li
                                 className={`py-2 ${
                                   menuItem.active &&
-                                  "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                  "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
                                 } text-sm flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
                                   isSidebarOpen && "hover:ps-2"
                                 }`}
@@ -70,7 +70,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                               <li
                                 className={`py-2 text-sm ${
                                   menuItem.active &&
-                                  "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                  "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
                                 } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
                                   isSidebarOpen && "hover:ps-2"
                                 }`}
@@ -90,19 +90,37 @@ const Sidebar = ({ isSidebarOpen }) => {
                           )
                         ) : (
                           <TooltipTrigger className="w-full">
-                            <li
-                              className={`py-2 text-sm ${
-                                menuItem.active
-                                  ? "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                  : "text-[#5b5b5b]"
-                              } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
-                                isSidebarOpen && "hover:ps-2"
-                              }`}
-                            >
-                              <span className="ps-4 text-2xl float-left">
-                                {menuItem.icon}
-                              </span>
-                            </li>
+                            {menuItem.submenu ? (
+                              <li
+                                className={`py-2 text-sm ${
+                                  menuItem.active
+                                    ? "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                    : "text-[#5b5b5b]"
+                                } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
+                                  isSidebarOpen && "hover:ps-2"
+                                }`}
+                              >
+                                <span className="ps-4 text-2xl float-left">
+                                  {menuItem.icon}
+                                </span>
+                              </li>
+                            ) : (
+                              <Link href={menuItem.href}>
+                                <li
+                                  className={`py-2 text-sm ${
+                                    menuItem.active
+                                      ? "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                      : "text-[#5b5b5b]"
+                                  } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
+                                    isSidebarOpen && "hover:ps-2"
+                                  }`}
+                                >
+                                  <span className="ps-4 text-2xl float-left">
+                                    {menuItem.icon}
+                                  </span>
+                                </li>
+                              </Link>
+                            )}
                           </TooltipTrigger>
                         )}
                       </div>
@@ -118,7 +136,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                                   <li
                                     className={`py-2 text-sm ${
                                       subMenuItem.active &&
-                                      "text-[#7888fc] bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                      "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
                                     } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 ${
                                       isSidebarOpen && "hover:ps-2"
                                     }`}
@@ -140,17 +158,23 @@ const Sidebar = ({ isSidebarOpen }) => {
                         side="right"
                       >
                         {!menuItem.submenu ? (
-                          <p className="cursor-pointer">{menuItem.title}</p>
+                          <Link href={menuItem.href}>
+                            <p className="cursor-pointer">{menuItem.title}</p>
+                          </Link>
                         ) : (
                           <ul>
                             {menuItem.submenuItems.map((subMenuItem, index) => (
                               <div key={index}>
-                                <li
-                                  onClick={() => setIsDropdownOpen(false)}
-                                  className={`py-2 flex items-center gap-x-4 cursor-pointer`}
-                                >
-                                  <span>{subMenuItem.title}</span>
-                                </li>
+                                <Link href={subMenuItem.href}>
+                                  <li
+                                    className={`py-1 px-3 ${
+                                      subMenuItem.active &&
+                                      "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
+                                    } flex items-center my-1 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md`}
+                                  >
+                                    <span>{subMenuItem.title}</span>
+                                  </li>
+                                </Link>
                               </div>
                             ))}
                           </ul>
