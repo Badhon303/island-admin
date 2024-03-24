@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen }) => {
                                 isOpen && "hover:ps-2"
                               }`}
                             >
-                              <span className="ps-5 text-2xl float-left">
+                              <span className="ps-4 text-2xl float-left">
                                 {menuItem.icon}
                               </span>
                               <span
@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen }) => {
                                 isOpen && "hover:ps-2"
                               }`}
                             >
-                              <span className="ps-5 text-2xl float-left">
+                              <span className="ps-4 text-2xl float-left">
                                 {menuItem.icon}
                               </span>
                             </li>
@@ -86,7 +86,7 @@ const Sidebar = ({ isOpen }) => {
                         <CollapsibleContent
                           className={`${styles.CollapsibleContent} pt-1`}
                         >
-                          <ul className="ms-8 border-l-2 border-grey-400">
+                          <ul className="ms-7 border-l-2 border-grey-400">
                             {menuItem.submenuItems.map((subMenuItem, index) => (
                               <div key={index} className="ps-2">
                                 <li

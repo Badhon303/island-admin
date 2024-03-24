@@ -11,7 +11,10 @@ const Header = ({ toggleSidebar, isOpen }) => {
           className="sm:order-1 flex items-center text-xl font-semibold"
           href="#"
         >
-          <button onClick={toggleSidebar} className="hidden sm:block me-4">
+          <button
+            onClick={toggleSidebar}
+            className="hidden sm:block me-4 hover:scale-125 duration-300"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -48,25 +51,25 @@ const Header = ({ toggleSidebar, isOpen }) => {
               href="#"
               aria-current="page"
             >
-              Link 1
+              Home
             </Link>
             <Link
               className="font-medium text-gray-600 hover:text-gray-400 "
               href="#"
             >
-              Link 2
+              Settings
             </Link>
             <Link
               className="font-medium text-gray-600 hover:text-gray-400 "
               href="#"
             >
-              Link 3
+              Quick Access
             </Link>
             <Link
               className="font-medium text-gray-600 hover:text-gray-400 "
               href="#"
             >
-              Link 4
+              Others
             </Link>
           </div>
         </div>
