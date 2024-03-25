@@ -190,7 +190,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                     <TooltipTrigger className="w-full">
                       <Link href={""}>
                         <li
-                          className={`py-2 text-sm flex items-center cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md`}
+                          className={`py-2 text-sm flex items-center cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md hover:ps-2 duration-300`}
                         >
                           <span className="ps-4 text-2xl float-left">
                             <MdLogout />
