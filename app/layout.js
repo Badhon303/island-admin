@@ -1,13 +1,21 @@
-import { Poppins as FontSans } from "next/font/google"
+// import { Poppins as FontSans } from "next/font/google"
+import { Poppins } from "next/font/google"
 import { ThemeProvider } from "@/providers/theme-provider"
 import "./globals.css"
 
 import { cn } from "@/lib/utils"
 
-const fontSans = FontSans({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+// const fontSans = FontSans({
+//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+//   subsets: ["latin"],
+//   variable: "--font-sans",
+// })
+
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-sans",
+  display: "swap",
+  // variable: '--font-poppins',
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 })
 
 export const metadata = {
@@ -17,12 +25,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={poppins.className} suppressHydrationWarning>
       <body
-        className={cn(
-          "min-h-screen bg-[#f3f4f7] dark:bg-gray-800 font-sans antialiased",
-          fontSans.variable
-        )}
+        className={cn("min-h-screen bg-[#f3f4f7] dark:bg-gray-800 antialiased")}
       >
         <ThemeProvider
           attribute="class"

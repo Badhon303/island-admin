@@ -19,9 +19,9 @@ module.exports = {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
-      },
+      // fontFamily: {
+      //   sans: ["var(--font-sans)", ...fontFamily.sans],
+      // },
       boxShadow: {
         basic: "0 1px 3px 0 rgba(54,74,99,.05)",
       },
