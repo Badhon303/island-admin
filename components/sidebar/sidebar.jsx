@@ -111,15 +111,15 @@ const Sidebar = ({ isSidebarOpen }) => {
                         <CollapsibleContent
                           className={`${styles.CollapsibleContent} pt-1`}
                         >
-                          <ul className="ms-7 border-l-2 border-grey-400">
+                          <ul className="ms-7 border-l-2 border-grey-400 space-y-2">
                             {menuItem.submenuItems.map((subMenuItem, index) => (
                               <div key={index} className="ps-2">
                                 <Link href={subMenuItem.href}>
                                   <li
-                                    className={`py-2 text-sm ${
+                                    className={`py-1 text-sm ${
                                       subMenuItem.active &&
                                       "bg-[#f3f6f9] dark:bg-gray-800 font-semibold"
-                                    } flex items-center gap-x-4 cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 hover:ps-2 `}
+                                    } flex items-center cursor-pointer hover:bg-[#f3f6f9] dark:hover:bg-gray-800 dark:text-white rounded-md duration-300 hover:ps-2`}
                                   >
                                     <span
                                       className={`text-base text-start flex-1 ps-8`}
@@ -183,7 +183,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                         <span className="ps-4 text-2xl float-left">
                           <MdLogout />
                         </span>
-                        <span className={`text-base flex-1`}>Log Out</span>
+                        <span className={`text-base flex-1`}>Log&nbsp;Out</span>
                       </li>
                     </Link>
                   ) : (

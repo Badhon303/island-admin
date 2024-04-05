@@ -40,7 +40,7 @@ export const metadata = {
 
 export default function DashboardPage() {
   return (
-    <div className="p-6 bg-background rounded-3xl mb-2 shadow-basic space-y-2">
+    <>
       <div className="flex flex-col md:flex-row items-center justify-between space-y-2 space-x-2">
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
         <div className="flex flex-col md:flex-row items-center space-x-2">
@@ -198,6 +198,6 @@ export default function DashboardPage() {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+    </>
   )
 }
