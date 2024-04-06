@@ -1,6 +1,7 @@
 const url = process.env.NEXT_PUBLIC_BASE_URL
 
 export async function getRawMaterialData() {
+  console.log(url)
   const res = await fetch(`${url}/api/raw-materials`, {
     headers: {
       Authorization:
