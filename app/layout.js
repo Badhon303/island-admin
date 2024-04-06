@@ -1,6 +1,7 @@
 // import { Poppins as FontSans } from "next/font/google"
 import { Poppins } from "next/font/google"
 import { ThemeProvider } from "@/providers/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
 import { cn } from "@/lib/utils"
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster />
           {children}
         </ThemeProvider>
       </body>
