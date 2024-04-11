@@ -10,7 +10,7 @@ import ModalBtn from "./modal-btn"
 
 export default async function RawClient() {
   const data = await getRawMaterialData()
-  const formattedData = data.data.map((item) => ({
+  const formattedData = data?.data?.map((item) => ({
     id: item.id,
     materialName: item.attributes?.materialName,
     createdAt: format(parseISO(item.attributes?.createdAt), "MMMM do, yyyy"),
@@ -19,7 +19,7 @@ export default async function RawClient() {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Raw-Material (${data.meta?.pagination?.total})`}
+          title={`Raw-Material (${data?.meta?.pagination?.total})`}
           description="Manage Raw Materials for your products"
         />
         <ModalBtn />

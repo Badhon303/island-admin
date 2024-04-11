@@ -14,7 +14,7 @@ export default async function RawPage() {
       <Suspense
         fallback={
           <div className="flex w-full items-center justify-center">
-            Loading...
+            <span className="loader2"></span>
           </div>
         }
       >

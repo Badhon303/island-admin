@@ -1,10 +1,8 @@
 "use client"
 
-const url = process.env.NEXT_PUBLIC_BASE_URL
-const token = process.env.NEXT_PUBLIC_TOKEN
+import { get, put, post } from "@/services/apiClient"
 
 import * as z from "zod"
-import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useToast } from "@/components/ui/use-toast"
@@ -43,22 +41,18 @@ export const RawModal = ({ isOpen, onClose, id }) => {
     const fetchMaterial = async () => {
       if (id !== "" && isOpen) {
         try {
-          setLoading(true) // Set loading to true while fetching
-          const response = await axios.get(`${url}/api/raw-materials/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`, // Replace 'yourTokenHere' with your actual token
-            },
-          })
-          const materialData = response.data?.data?.attributes
-          form.reset({ materialName: materialData.materialName }) // Update form with fetched data
+          setLoading(true)
+          const response = await get(`/api/raw-materials/${id}`)
+          const materialData = response.data?.attributes
+          form.reset({ materialName: materialData.materialName })
         } catch (error) {
           toast({
             variant: "destructive",
-            title: "Failed to fetch material",
+            title: `${error}`,
             description: "Unable to load material details.",
           })
         } finally {
-          setLoading(false) // Ensure loading is set to false after the operation
+          setLoading(false)
         }
       }
     }
@@ -70,29 +64,9 @@ export const RawModal = ({ isOpen, onClose, id }) => {
     try {
       setLoading(true)
       if (id) {
-        await axios.put(
-          `${url}/api/raw-materials/${id}`,
-          {
-            data: values,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+        await put(`/api/raw-materials/${id}`, values)
       } else {
-        await axios.post(
-          `${url}/api/raw-materials`,
-          {
-            data: values,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+        await post("/api/raw-materials", values)
       }
       router.refresh()
       toast({
@@ -151,7 +125,13 @@ export const RawModal = ({ isOpen, onClose, id }) => {
                     Cancel
                   </Button>
                   <Button disabled={loading} type="submit">
-                    {id ? "Update" : "Create"}
+                    {loading ? (
+                      <span class="spinner"></span>
+                    ) : id ? (
+                      "Update"
+                    ) : (
+                      "Create"
+                    )}
                   </Button>
                 </div>
               </form>

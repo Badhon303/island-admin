@@ -1,13 +1,11 @@
 "use client"
 
-const url = process.env.NEXT_PUBLIC_BASE_URL
-const token = process.env.NEXT_PUBLIC_TOKEN
+import { del } from "@/services/apiClient"
 
-import axios from "axios"
 import { useState } from "react"
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,7 +20,6 @@ import { RawModal } from "./raw-modal"
 
 export const CellAction = ({ data }) => {
   const router = useRouter()
-  const params = useParams()
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
   const [rawModalOpen, setRawModalOpen] = useState(false)
@@ -31,11 +28,7 @@ export const CellAction = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true)
-      await axios.delete(`${url}/api/raw-materials/${data.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Replace 'yourTokenHere' with your actual token
-        },
-      })
+      await del(`${url}/api/raw-materials/${data.id}`)
       toast({
         title: `Raw Material Deleted`,
       })

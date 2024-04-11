@@ -6,7 +6,6 @@ import { Modal } from "@/components/ui/modal"
 import { Button } from "@/components/ui/button"
 
 export const AlertModal = ({ isOpen, onClose, onConfirm, loading }) => {
-  console.log("Alert called")
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
