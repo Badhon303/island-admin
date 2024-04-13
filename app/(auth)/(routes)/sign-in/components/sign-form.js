@@ -50,8 +50,9 @@ const SignInForm = () => {
       const data = await response.json()
       if (data.error) {
         throw new Error(data.error?.message)
+      } else {
+        router.push("/dashboard")
       }
-      router.push("/dashboard")
     } catch (error) {
       toast({
         variant: "destructive",

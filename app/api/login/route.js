@@ -36,11 +36,13 @@ export async function POST(req) {
       session.user = resJson.user
       session.isLoggedIn = true
       await session.save()
+    } else {
+      return NextResponse.json(resJson)
     }
-    delete resJson.jwt
-    return NextResponse.json(resJson)
+    return NextResponse.json({
+      success: "Successfully logged in",
+    })
   } catch (error) {
-    console.log("login error: ", error)
     return NextResponse.json({
       error: error,
     })
