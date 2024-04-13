@@ -53,7 +53,6 @@ const SignInForm = () => {
       }
       router.push("/dashboard")
     } catch (error) {
-      console.log("error2: ", error)
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
