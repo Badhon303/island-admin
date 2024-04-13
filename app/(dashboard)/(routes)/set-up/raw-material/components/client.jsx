@@ -25,11 +25,13 @@ export default async function RawClient() {
         <ModalBtn />
       </div>
       <Separator />
-      <DataTable
-        searchKey="materialName"
-        columns={columns}
-        data={formattedData}
-      />
+      {data && (
+        <DataTable
+          searchKey="materialName"
+          columns={columns}
+          data={formattedData}
+        />
+      )}
     </>
   )
 }

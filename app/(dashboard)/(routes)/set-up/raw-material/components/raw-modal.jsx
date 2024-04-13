@@ -126,7 +126,7 @@ export const RawModal = ({ isOpen, onClose, id }) => {
                   </Button>
                   <Button disabled={loading} type="submit">
                     {loading ? (
-                      <span class="spinner"></span>
+                      <span className="spinner"></span>
                     ) : id ? (
                       "Update"
                     ) : (

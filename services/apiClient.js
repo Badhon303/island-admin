@@ -1,5 +1,20 @@
 import axios from "@/utils/axios"
 
+import { getSession } from "@/services/get-session"
+
+axios.interceptors.request.use(
+  async (config) => {
+    const session = await getSession()
+    if (session.jwt) {
+      config.headers.Authorization = `Bearer ${session.jwt}`
+    }
+    return config
+  },
+  async (error) => {
+    return Promise.reject(error)
+  }
+)
+
 export const get = async (url, config = {}) => {
   try {
     const response = await axios.get(url, config)

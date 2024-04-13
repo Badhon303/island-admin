@@ -2,6 +2,8 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import styles from "./sidebar.module.css"
 
+import LogoutBtn from "./logout-btn"
+
 import { MdExpandMore, MdLogout } from "react-icons/md"
 import {
   Tooltip,
@@ -183,7 +185,9 @@ const Sidebar = ({ isSidebarOpen }) => {
                         <span className="ps-4 text-2xl float-left">
                           <MdLogout />
                         </span>
-                        <span className={`text-base flex-1`}>Log&nbsp;Out</span>
+                        <span className={`text-base flex-1`}>
+                          <LogoutBtn />
+                        </span>
                       </li>
                     </Link>
                   ) : (

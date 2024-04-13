@@ -28,7 +28,7 @@ export const CellAction = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true)
-      await del(`${url}/api/raw-materials/${data.id}`)
+      await del(`/api/raw-materials/${data.id}`)
       toast({
         title: `Raw Material Deleted`,
       })

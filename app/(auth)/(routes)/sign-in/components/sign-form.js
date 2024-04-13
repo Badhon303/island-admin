@@ -2,33 +2,115 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 import * as z from "zod"
-import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState } from "react"
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+
+const formSchema = z.object({
+  identifier: z.string().min(3),
+  password: z.string().min(6),
+})
 
 const SignInForm = () => {
+  const { toast } = useToast()
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      identifier: "",
+      password: "",
+    },
+  })
+
+  const onSubmit = async (values) => {
+    try {
+      setLoading(true)
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+      await response.json()
+      router.push("/dashboard")
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your Login request.",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <div className="grid gap-4">
-      <div className="grid gap-2">
-        <Label htmlFor="email">Email *</Label>
-        <Input id="email" type="email" placeholder="m@island.com" required />
-      </div>
-      <div className="grid gap-2">
-        <div className="flex items-center">
-          <Label htmlFor="password">Password *</Label>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <FormField
+              control={form.control}
+              name="identifier"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email or Name *</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Alam@island.com or Alam"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid gap-2">
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center">
+                    <FormLabel>Password *</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      type="password"
+                      placeholder="******"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <Button disabled={loading} type="submit" className="w-full">
+            {loading ? <span className="spinner"></span> : "Login"}
+          </Button>
         </div>
-        <Input id="password" type="password" required />
-      </div>
-      <Button type="submit" className="w-full">
-        Login
-      </Button>
-    </div>
+      </form>
+    </Form>
   )
 }
 
