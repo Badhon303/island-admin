@@ -47,13 +47,17 @@ const SignInForm = () => {
         },
         body: JSON.stringify(values),
       })
-      await response.json()
+      const data = await response.json()
+      if (data.error) {
+        throw new Error(data.error?.message)
+      }
       router.push("/dashboard")
     } catch (error) {
+      console.log("error2: ", error)
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your Login request.",
+        description: `There was a problem with your Login request. (${error})`,
       })
     } finally {
       setLoading(false)
