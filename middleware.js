@@ -4,10 +4,6 @@ import { jwtVerify } from "jose"
 import { unsealData } from "iron-session"
 
 // Encoding the JWT secret key to be used in verifying the JWT token.
-console.log(
-  "process.env.NEXT_PUBLIC_JWT_SECRET: ",
-  process.env.NEXT_PUBLIC_JWT_SECRET
-)
 const jwtSecret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
 
 // The asynchronous middleware function that intercepts requests.
@@ -21,23 +17,17 @@ export async function middleware(request) {
 
     // If no accessToken is found, redirect to the login page.
     if (!accessToken) {
-      console.log("!accessToken")
       return NextResponse.redirect(new URL("/sign-in", request.url))
     }
 
     // Attempting to verify the accessToken. If verification is successful, proceed with the request.
     try {
-      console.log(
-        "process.env.NEXT_PUBLIC_IRON_SECRET: ",
-        process.env.NEXT_PUBLIC_IRON_SECRET
-      )
       const data = await unsealData(accessToken?.value, {
         password: process.env.NEXT_PUBLIC_IRON_SECRET,
       })
       await jwtVerify(data?.jwt, jwtSecret)
       return NextResponse.next()
     } catch (error) {
-      console.log("error: ", error)
       // For any verification errors, redirect to the login page.
       return NextResponse.redirect(new URL("/sign-in", request.url))
     }
@@ -53,10 +43,6 @@ export async function middleware(request) {
 
     // If an accessToken exists, verify it. If verification is successful, redirect to the dashboard.
     if (accessToken) {
-      console.log(
-        "sign-in process.env.NEXT_PUBLIC_IRON_SECRET: ",
-        process.env.NEXT_PUBLIC_IRON_SECRET
-      )
       try {
         const data = await unsealData(accessToken?.value, {
           password: process.env.NEXT_PUBLIC_IRON_SECRET,
@@ -64,7 +50,6 @@ export async function middleware(request) {
         await jwtVerify(data?.jwt, jwtSecret)
         return NextResponse.redirect(new URL("/dashboard", request.url))
       } catch (error) {
-        console.log("sign-in error: ", error)
         // If token verification fails, just return the response to continue with the login page.
         return response
       }
