@@ -4,22 +4,24 @@ import RawClient from "./components/client"
 
 export default async function RawPage() {
   return (
-    <ErrorBoundary
-      fallback={
-        <div className="flex w-full items-center justify-center">
-          Something went wrong 😥🙃
-        </div>
-      }
-    >
-      <Suspense
+    <div className="p-6 bg-background rounded-3xl mb-2 shadow-basic space-y-2">
+      <ErrorBoundary
         fallback={
           <div className="flex w-full items-center justify-center">
-            <span className="loader2"></span>
+            Something went wrong 😥🙃
           </div>
         }
       >
-        <RawClient />
-      </Suspense>
-    </ErrorBoundary>
+        <Suspense
+          fallback={
+            <div className="flex w-full items-center justify-center">
+              <span className="loader2"></span>
+            </div>
+          }
+        >
+          <RawClient />
+        </Suspense>
+      </ErrorBoundary>
+    </div>
   )
 }

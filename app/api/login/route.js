@@ -1,7 +1,7 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
-import { getSession } from "@/services/get-session"
+import { getSession } from "@/utils/get-session"
 
 const url = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -32,10 +32,14 @@ export async function POST(req) {
       // delete resJson.refreshToken
 
       const session = await getSession()
-      session.jwt = resJson.jwt
-      session.user = resJson.user
-      session.isLoggedIn = true
+      updateSession(session, resJson.jwt, resJson.user, true)
       await session.save()
+
+      function updateSession(session, jwt, user, isLoggedIn) {
+        session.jwt = jwt
+        session.user = user
+        session.isLoggedIn = isLoggedIn
+      }
     } else {
       return NextResponse.json(resJson)
     }

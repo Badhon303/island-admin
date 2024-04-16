@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { getSession } from "@/services/get-session"
+import { getSession } from "@/utils/get-session"
 
 export async function GET() {
   //   const responseApi = await fetch('http://localhost:3003/sign-out');
@@ -14,9 +14,21 @@ export async function GET() {
   const cookieStore = cookies()
   cookieStore.delete("accessToken")
 
-  const session = await getSession()
-  session.destroy()
+  // try {
+  //   const session = await getSession()
+  //   if (session) {
+  //     console.log("session", session)
+  //     session.destroy()
+  //   }
   return NextResponse.json({
+    status: 200,
     message: "Logged Out",
   })
+  // } catch (error) {
+  //   console.error(
+  //     "Error occurred during getSession or session destruction:",
+  //     error
+  //   )
+  //   // handle the error here, e.g. return an error response
+  // }
 }

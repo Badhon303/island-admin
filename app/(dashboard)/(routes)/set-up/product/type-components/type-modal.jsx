@@ -22,10 +22,10 @@ import {
 import { Button } from "@/components/ui/button"
 
 const formSchema = z.object({
-  materialName: z.string().min(1),
+  type: z.string().min(1).max(50),
 })
 
-export const RawModal = ({ isOpen, onClose, id }) => {
+export const TypeModal = ({ isOpen, onClose, id }) => {
   const { toast } = useToast()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -33,23 +33,24 @@ export const RawModal = ({ isOpen, onClose, id }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      materialName: "",
+      type: "",
     },
   })
 
   useEffect(() => {
-    const fetchMaterial = async () => {
+    const fetchType = async () => {
       if (id !== "" && isOpen) {
         try {
           setLoading(true)
-          const response = await request("GET", `/api/raw-materials/${id}`)
-          const materialData = response.data?.attributes
-          form.reset({ materialName: materialData.materialName })
+          const response = await request("GET", `/api/product-types/${id}`)
+          const typeData = response.data?.attributes
+          form.reset({ type: typeData.type })
         } catch (error) {
+          console.log("error: ", error)
           toast({
             variant: "destructive",
             title: `${error}`,
-            description: "Unable to load material details.",
+            description: "Unable to load Product Type details.",
           })
         } finally {
           setLoading(false)
@@ -57,20 +58,20 @@ export const RawModal = ({ isOpen, onClose, id }) => {
       }
     }
 
-    fetchMaterial()
+    fetchType()
   }, [id, form, toast, isOpen])
 
   const onSubmit = async (values) => {
     try {
       setLoading(true)
       if (id) {
-        await request("PUT"`, /api/raw-materials/${id}`, values)
+        await request("PUT", `/api/product-types/${id}`, values)
       } else {
-        await request("POST", "/api/raw-materials", values)
+        await request("POST", "/api/product-types", values)
       }
       router.refresh()
       toast({
-        title: `Raw Material ${id ? "Updated" : "Created"} successfully`,
+        title: `Product Type ${id ? "Updated" : "Created"} successfully`,
         description: "Time date will be updated",
       })
     } catch (error) {
@@ -87,10 +88,10 @@ export const RawModal = ({ isOpen, onClose, id }) => {
 
   return (
     <Modal
-      title={`${id ? "Update " : "Create"} a Raw Material`}
+      title={`${id ? "Update " : "Create"} a Product Type`}
       description={`${
         id ? "Update" : "Add"
-      } a new Raw Material to manage products and categories.`}
+      } a new Product Type to manage products and categories.`}
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -101,14 +102,14 @@ export const RawModal = ({ isOpen, onClose, id }) => {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                   control={form.control}
-                  name="materialName"
+                  name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Material Name</FormLabel>
+                      <FormLabel>Product Type</FormLabel>
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="Material Name"
+                          placeholder="Product Type"
                           {...field}
                         />
                       </FormControl>

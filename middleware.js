@@ -21,14 +21,20 @@ export async function middleware(request) {
     }
 
     // Attempting to verify the accessToken. If verification is successful, proceed with the request.
-    try {
-      const data = await unsealData(accessToken?.value, {
-        password: process.env.NEXT_PUBLIC_IRON_SECRET,
-      })
-      await jwtVerify(data?.jwt, jwtSecret)
-      return NextResponse.next()
-    } catch (error) {
-      // For any verification errors, redirect to the login page.
+    // Checking if accessToken is not null or undefined before calling jwtVerify and unsealData functions.
+    if (accessToken) {
+      try {
+        const data = await unsealData(accessToken.value, {
+          password: process.env.NEXT_PUBLIC_IRON_SECRET,
+        })
+        await jwtVerify(data.jwt, jwtSecret)
+        return NextResponse.next()
+      } catch (error) {
+        // For any verification errors, redirect to the login page.
+        return NextResponse.redirect(new URL("/sign-in", request.url))
+      }
+    } else {
+      // If accessToken is null or undefined, redirect to the login page.
       return NextResponse.redirect(new URL("/sign-in", request.url))
     }
   }

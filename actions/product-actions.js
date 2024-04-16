@@ -3,9 +3,9 @@ import { getSession } from "@/utils/get-session"
 
 const url = process.env.NEXT_PUBLIC_BASE_URL
 
-export async function getRawMaterialData() {
+export async function getProductTypeData() {
   const session = await getSession()
-  const apiUrl = urlJoin(url, "/api/raw-materials")
+  const apiUrl = urlJoin(url, "/api/product-types")
   if (!session) {
     console.error("Session is null or undefined")
     return null
@@ -24,10 +24,10 @@ export async function getRawMaterialData() {
       }
       return parsedData
     } else {
-      console.error("GET /api/raw-materials failed with status", data.status)
+      console.error("GET /api/product-types failed with status", data.status)
     }
   } catch (error) {
-    // console.error("GET /api/raw-materials ", error)
-    throw new Error(`GET /api/raw-materials ${error}`)
+    // console.error("GET /api/product-types ", error)
+    throw new Error(`GET /api/product-types ${error}`)
   }
 }
