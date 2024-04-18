@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
+import { Eye, EyeOff } from "lucide-react"
+
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -28,6 +30,7 @@ const SignInForm = () => {
   const { toast } = useToast()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [type, setType] = useState("password")
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -64,6 +67,14 @@ const SignInForm = () => {
     }
   }
 
+  const handleToggle = () => {
+    if (type === "password") {
+      setType("text")
+    } else {
+      setType("password")
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -97,12 +108,24 @@ const SignInForm = () => {
                     <FormLabel>Password *</FormLabel>
                   </div>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      type="password"
-                      placeholder="******"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        disabled={loading}
+                        type={type}
+                        placeholder={`******`}
+                        {...field}
+                      />
+                      <span
+                        className="flex absolute right-4 top-2 justify-around items-center"
+                        onClick={handleToggle}
+                      >
+                        {type === "password" ? (
+                          <EyeOff color="#64748b" />
+                        ) : (
+                          <Eye color="#64748b" />
+                        )}
+                      </span>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
