@@ -16,27 +16,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { AlertModal } from "@/components/modals/alert-modal"
-import { RawModal } from "./raw-modal"
+import { CategoryModal } from "./category-modal"
 
 export const CellAction = ({ data }) => {
   const router = useRouter()
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
-  const [rawModalOpen, setRawModalOpen] = useState(false)
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const onConfirm = async () => {
     try {
       setLoading(true)
-      await request("Delete", `/api/raw-materials/${data.id}`)
+      await request("DELETE", `/api/product-categories/${data.id}`)
       toast({
-        title: `Raw Material Deleted`,
+        title: `Product-categories Deleted`,
       })
       router.refresh()
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        title: `Uh oh! Something went wrong. ${error}`,
         description: "There was a problem with your request.",
       })
     } finally {
@@ -60,11 +60,12 @@ export const CellAction = ({ data }) => {
         onConfirm={onConfirm}
         loading={loading}
       />
-      <RawModal
-        isOpen={rawModalOpen}
-        onClose={() => setRawModalOpen(false)}
+      <CategoryModal
+        isOpen={categoryModalOpen}
+        onClose={() => setCategoryModalOpen(false)}
         id={data.id}
-        productCategoryId={data.product_category_id}
+        productTypeId={data.product_type_id}
+        productCategoryDetailsId={data.product_category_detail_id}
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -78,7 +79,7 @@ export const CellAction = ({ data }) => {
           <DropdownMenuItem onClick={() => onCopy(data.id)}>
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setRawModalOpen(true)}>
+          <DropdownMenuItem onClick={() => setCategoryModalOpen(true)}>
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>

@@ -21,8 +21,10 @@ import {
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 
+import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import {
   Command,
   CommandEmpty,
@@ -36,37 +38,36 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
 
 const formSchema = z.object({
-  materialName: z.string().min(1),
+  productName: z.string().min(1).max(50),
   // productCategoryName: z.string().min(1).max(50),
 })
 
-export const RawModal = ({ isOpen, onClose, id, productCategoryId }) => {
+export const ProductModal = ({ isOpen, onClose, id, productCategoryId }) => {
   const { toast } = useToast()
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   const [open, setOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [value, setValue] = useState("")
   const [productCategoryData, setProductCategoryData] = useState([])
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      materialName: "",
+      productName: "",
       productCategoryName: "",
     },
   })
 
   useEffect(() => {
-    const fetchMaterial = async () => {
+    const fetchData = async () => {
       if (isOpen) {
         setLoading(true)
         try {
-          const materialResponse = id
-            ? await request("GET", `/api/raw-materials/${id}`)
+          const productResponse = id
+            ? await request("GET", `/api/products/${id}`)
             : null
           const productCategoryResponse = productCategoryId
             ? await request(
@@ -75,14 +76,13 @@ export const RawModal = ({ isOpen, onClose, id, productCategoryId }) => {
               )
             : null
 
-          const materialName = materialResponse?.data?.attributes?.materialName
+          const productName = productResponse?.data?.attributes?.productName
           const categoryName =
             productCategoryResponse?.data?.attributes?.categoryName
 
           setValue(categoryName)
-
           form.reset({
-            materialName,
+            productName,
             categoryName,
           })
         } catch (error) {
@@ -98,7 +98,7 @@ export const RawModal = ({ isOpen, onClose, id, productCategoryId }) => {
       }
     }
 
-    fetchMaterial()
+    fetchData()
   }, [id, form, toast, isOpen, productCategoryId])
 
   useEffect(() => {
@@ -131,19 +131,19 @@ export const RawModal = ({ isOpen, onClose, id, productCategoryId }) => {
         (category) => category.label === value
       )?.value
       const postValues = {
-        materialName: values.materialName,
+        productName: values.productName,
         product_category: {
           connect: [productCategoryById],
         },
       }
       if (id) {
-        await request("PUT", `/api/raw-materials/${id}`, postValues)
+        await request("PUT", `/api/products/${id}`, postValues)
       } else {
-        await request("POST", "/api/raw-materials", postValues)
+        await request("POST", "/api/products", postValues)
       }
       router.refresh()
       toast({
-        title: `Raw Material ${id ? "Updated" : "Created"} successfully`,
+        title: `Product ${id ? "Updated" : "Created"} successfully`,
         description: "Time date will be updated",
       })
     } catch (error) {
@@ -160,10 +160,8 @@ export const RawModal = ({ isOpen, onClose, id, productCategoryId }) => {
 
   return (
     <Modal
-      title={`${id ? "Update " : "Create"} a Raw Material`}
-      description={`${
-        id ? "Update" : "Add"
-      } a new Raw Material to manage products and categories.`}
+      title={`${id ? "Update " : "Create"} a Product`}
+      description={`${id ? "Update" : "Add"} a new Product`}
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -177,14 +175,14 @@ export const RawModal = ({ isOpen, onClose, id, productCategoryId }) => {
               >
                 <FormField
                   control={form.control}
-                  name="materialName"
+                  name="productName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Material Name</FormLabel>
+                      <FormLabel>Product</FormLabel>
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="Material Name"
+                          placeholder="Product Category"
                           {...field}
                         />
                       </FormControl>
@@ -270,6 +268,7 @@ export const RawModal = ({ isOpen, onClose, id, productCategoryId }) => {
                     </FormItem>
                   )}
                 />
+
                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
                   <Button
                     disabled={loading}

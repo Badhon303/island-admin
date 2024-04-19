@@ -46,11 +46,46 @@
 //   }
 // }
 
-"use server"
+// "use server"
 
 import axios from "@/utils/axios"
-import axiosRetry from "axios-retry"
-axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay })
+// import axiosRetry from "axios-retry"
+// axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay })
+import { getSession } from "@/utils/get-session"
+
+// let cachedSession = null
+
+// axios.interceptors.request.use(
+//   async (config) => {
+//     try {
+//       if (!cachedSession) {
+//         cachedSession = await getSession()
+//       }
+//       const modifiedConfig = { ...config } // Create a copy of the config object
+//       if (cachedSession.jwt) {
+//         modifiedConfig.headers.Authorization = `Bearer ${cachedSession.jwt}`
+//       }
+//       return modifiedConfig
+//     } catch (error) {}
+//   },
+
+//   (error) => {
+//     return Promise.reject(error)
+//   }
+// )
+
+axios.interceptors.request.use(
+  async (config) => {
+    const session = await getSession()
+    if (session.jwt) {
+      config.headers.Authorization = `Bearer ${session.jwt}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
 class CustomError extends Error {
   constructor(message, status, headers) {
@@ -66,7 +101,7 @@ export const request = async (method, url, values, config = {}) => {
     const response = await axios.request({
       method,
       url,
-      data: values,
+      data: { data: values },
       ...config,
     })
     return response.data

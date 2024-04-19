@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { RawModal } from "./raw-modal"
+import { ProductModal } from "./product-modal"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 
@@ -9,7 +9,7 @@ const ModalBtn = () => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <RawModal
+      <ProductModal
         isOpen={open}
         onClose={() => setOpen(false)}
         id={null}

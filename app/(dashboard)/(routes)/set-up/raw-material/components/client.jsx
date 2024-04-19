@@ -13,6 +13,9 @@ export default async function RawClient() {
   const formattedData = data?.data?.map((item) => ({
     id: item.id,
     materialName: item.attributes?.materialName,
+    product_category:
+      item.attributes?.product_category?.data?.attributes?.categoryName,
+    product_category_id: item.attributes?.product_category?.data?.id,
     createdAt: format(parseISO(item.attributes?.createdAt), "MMMM do, yyyy"),
   }))
   return (
@@ -25,13 +28,7 @@ export default async function RawClient() {
         <ModalBtn />
       </div>
       <Separator />
-      {data && (
-        <DataTable
-          searchKey="materialName"
-          columns={columns}
-          data={formattedData}
-        />
-      )}
+      {data && <DataTable columns={columns} data={formattedData} />}
     </>
   )
 }

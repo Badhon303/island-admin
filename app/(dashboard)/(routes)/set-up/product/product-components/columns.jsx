@@ -1,7 +1,6 @@
 "use client"
 
 import { ArrowUpDown } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 
 import { Checkbox } from "@/components/ui/checkbox"
@@ -31,14 +30,14 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "materialName",
+    accessorKey: "productName",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Material Name
+          Product
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

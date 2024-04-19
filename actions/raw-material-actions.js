@@ -5,7 +5,7 @@ const url = process.env.NEXT_PUBLIC_BASE_URL
 
 export async function getRawMaterialData() {
   const session = await getSession()
-  const apiUrl = urlJoin(url, "/api/raw-materials")
+  const apiUrl = urlJoin(url, "/api/raw-materials?populate=*")
   if (!session) {
     console.error("Session is null or undefined")
     return null
@@ -28,7 +28,7 @@ export async function getRawMaterialData() {
       ) {
         const apiUrl = urlJoin(
           url,
-          `/api/raw-materials?pagination[pageSize]=${parsedData?.meta?.pagination?.total}&pagination[page]=1`
+          `/api/raw-materials?pagination[pageSize]=${parsedData?.meta?.pagination?.total}&pagination[page]=1?populate=*`
         )
         try {
           const data = await fetch(apiUrl, {

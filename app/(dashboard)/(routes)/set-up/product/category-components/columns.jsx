@@ -31,28 +31,42 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "materialName",
+    accessorKey: "categoryName",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Material Name
+          Category Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
   },
   {
-    accessorKey: "product_category",
+    accessorKey: "product_type",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Product Category
+          Product Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+  },
+  {
+    accessorKey: "product_category_detail",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          product Category Detail
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

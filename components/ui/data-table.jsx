@@ -34,11 +34,16 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 
-export function DataTable({ columns, data, searchKey }) {
+import { useSidebar } from "@/hooks/use-sidebar"
+
+export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
+  const [filtering, setFiltering] = useState("")
+
+  const { isSidebarOpen } = useSidebar()
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -57,7 +62,9 @@ export function DataTable({ columns, data, searchKey }) {
     onColumnVisibilityChange: setColumnVisibility,
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChanged: setFiltering,
     state: {
+      globalFilter: filtering,
       sorting,
       columnFilters,
       columnVisibility,
@@ -70,11 +77,13 @@ export function DataTable({ columns, data, searchKey }) {
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={table.getColumn(searchKey)?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn(searchKey)?.setFilterValue(event.target.value)
-          }
+          placeholder="Search..."
+          // value={table.getColumn(searchKey)?.getFilterValue() ?? ""}
+          value={filtering}
+          onChange={(event) => setFiltering(event.target.value)}
+          // onChange={(event) =>
+          //   table.getColumn(searchKey)?.setFilterValue(event.target.value)
+          // }
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -104,7 +113,11 @@ export function DataTable({ columns, data, searchKey }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div
+        className={`rounded-md border w-[90vw] ${
+          isSidebarOpen ? "lg:w-[83vw]" : "lg:w-[91.6vw]"
+        } overflow-y-auto duration-200`}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -154,7 +167,7 @@ export function DataTable({ columns, data, searchKey }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-between">
+      <div className="flex flex-col lg:flex-row items-center justify-between">
         <div className="text-sm text-muted-foreground pt-4">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
