@@ -113,11 +113,7 @@ export function DataTable({ columns, data }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div
-        className={`rounded-md border w-[90vw] ${
-          isSidebarOpen ? "lg:w-[83vw]" : "lg:w-[91.6vw]"
-        } overflow-y-auto duration-200`}
-      >
+      <div className={`rounded-md border overflow-y-auto`}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
