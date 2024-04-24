@@ -41,7 +41,7 @@ import {
 
 const formSchema = z.object({
   categoryName: z.string().min(1).max(50),
-  // productType: z.string().min(1).max(50),
+  productType: z.string().min(1).max(50),
   modelCode: z.string().min(1).max(50),
   modelName: z.string().min(1).max(50),
 })
@@ -71,88 +71,6 @@ export const CategoryModal = ({
     },
   })
 
-  // useEffect(() => {
-  //   const fetchCategory = async () => {
-  //     if (id !== "" && isOpen) {
-  //       try {
-  //         setLoading(true)
-  //         const response = await request("GET", `/api/product-categories/${id}`)
-  //         const categoryData = response.data?.attributes
-  //         form.reset({ categoryName: categoryData.categoryName })
-  //       } catch (error) {
-  //         console.log("error: ", error)
-  //         toast({
-  //           variant: "destructive",
-  //           title: `${error}`,
-  //           description: "Unable to load Product Category details.",
-  //         })
-  //       } finally {
-  //         setLoading(false)
-  //       }
-  //     }
-  //   }
-
-  //   const fetchProductType = async () => {
-  //     if (productTypeId && isOpen) {
-  //       try {
-  //         setLoading(true)
-  //         const response = await request(
-  //           "GET",
-  //           `/api/product-types/${productTypeId}`
-  //         )
-  //         const productTypeData = response.data?.attributes
-  //         setValue(productTypeData.type)
-  //         // form.setValue({ productType: productTypeData.type })
-  //       } catch (error) {
-  //         console.log("error: ", error)
-  //         toast({
-  //           variant: "destructive",
-  //           title: `${error}`,
-  //           description: "Unable to load Product Category details.",
-  //         })
-  //       } finally {
-  //         setLoading(false)
-  //       }
-  //     }
-  //   }
-
-  //   const fetchProductCategoryDetails = async () => {
-  //     if (productCategoryDetailId && isOpen) {
-  //       try {
-  //         setLoading(true)
-  //         const response = await request(
-  //           "GET",
-  //           `/api/product-category-details/${productCategoryDetailId}`
-  //         )
-  //         const productCategoryDetailsData = response.data?.attributes
-  //         console.log(
-  //           "productCategoryDetailsData: ",
-  //           productCategoryDetailsData.modelName
-  //         )
-  //         // setValue(productTypeData.type)
-  //         form.reset({
-  //           categoryName: form.getValues("categoryName"),
-  //           modelName: productCategoryDetailsData?.modelName,
-  //           modelCode: productCategoryDetailsData?.modelCode,
-  //         })
-  //       } catch (error) {
-  //         console.log("error: ", error)
-  //         toast({
-  //           variant: "destructive",
-  //           title: `${error}`,
-  //           description: "Unable to load Product Category details.",
-  //         })
-  //       } finally {
-  //         setLoading(false)
-  //       }
-  //     }
-  //   }
-
-  //   fetchCategory()
-  //   fetchProductType()
-  //   fetchProductCategoryDetails()
-  // }, [id, form, toast, isOpen, productCategoryDetailId, productTypeId])
-
   useEffect(() => {
     const fetchData = async () => {
       if (isOpen) {
@@ -178,10 +96,10 @@ export const CategoryModal = ({
 
           setValue(productType)
           form.reset({
-            categoryName,
-            productType,
-            modelName,
-            modelCode,
+            categoryName: categoryName || "",
+            productType: productType || "",
+            modelName: modelName || "",
+            modelCode: modelCode || "",
           })
         } catch (error) {
           console.log("error: ", error)
@@ -226,44 +144,22 @@ export const CategoryModal = ({
     try {
       setLoading(true)
       if (id) {
-        const postProductType = productTypeId
-          ? productTypeId
-          : await request("POST", "/api/product-types", { type: values.type })
-
-        const postProductCategoryDetails = productCategoryDetailsId
-          ? productCategoryDetailsId
-          : await request("POST", "/api/product-category-details", {
-              modelName: values.modelName,
-              modelCode: values.modelCode,
-            })
-
-        const productTypeById = postProductType?.data?.id
-        const productCategoryDetailsById = postProductCategoryDetails?.data?.id
-
         const postValues = {
           categoryName: values.categoryName,
           product_type: {
-            connect: [productTypeById ? productTypeById : productTypeId],
+            connect: [productTypeId ? productTypeId : null],
           },
           product_category_detail: {
             connect: [
-              productCategoryDetailsById
-                ? productCategoryDetailsById
-                : productCategoryDetailsId,
+              productCategoryDetailsId ? productCategoryDetailsId : null,
             ],
           },
         }
         await request("PUT", `/api/product-categories/${id}`, postValues)
       } else {
-        const productTypePost = {
-          type: values.type,
-        }
-        const getProductTypeData = await request(
-          "POST",
-          "/api/product-category-details/",
-          productTypePost
-        )
-        const productTypeById = getProductTypeData?.data?.id
+        const productTypeById = productTypeData.find(
+          (type) => type.label === value
+        )?.value
 
         const productCategoryPost = {
           modelName: values.modelName,
@@ -279,11 +175,11 @@ export const CategoryModal = ({
         const postValues = {
           categoryName: values.categoryName,
           product_type: {
-            connect: [productTypeById ? productTypeById : null],
+            connect: [productTypeById ? productTypeById : 0],
           },
           product_category_detail: {
             connect: [
-              productCategoryDetailsById ? productCategoryDetailsById : null,
+              productCategoryDetailsById ? productCategoryDetailsById : 0,
             ],
           },
         }

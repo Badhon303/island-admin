@@ -41,7 +41,7 @@ import {
 
 const formSchema = z.object({
   productName: z.string().min(1).max(50),
-  // productCategoryName: z.string().min(1).max(50),
+  productCategoryName: z.string().min(1).max(50),
 })
 
 export const ProductModal = ({ isOpen, onClose, id, productCategoryId }) => {
@@ -82,8 +82,8 @@ export const ProductModal = ({ isOpen, onClose, id, productCategoryId }) => {
 
           setValue(categoryName)
           form.reset({
-            productName,
-            categoryName,
+            productName: productName || "",
+            categoryName: categoryName || "",
           })
         } catch (error) {
           console.log("error: ", error)
