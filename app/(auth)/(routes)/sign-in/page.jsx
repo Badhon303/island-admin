@@ -14,8 +14,8 @@ export default function Dashboard() {
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Login</h1>
             <p className="text-balance text-muted-foreground">
-              Enter your email below to login to your account' name: admin pass:
-              admin@123
+              Enter your email below to login to your account&apos;s name: admin
+              pass: admin@123
             </p>
           </div>
           <SignInForm />
