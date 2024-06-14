@@ -27,6 +27,7 @@ export async function middleware(request) {
         const data = await unsealData(accessToken.value, {
           password: process.env.NEXT_PUBLIC_IRON_SECRET,
         })
+        console.log("jwtSecret: ", jwtSecret)
         await jwtVerify(data.jwt, jwtSecret)
         return NextResponse.next()
       } catch (error) {
