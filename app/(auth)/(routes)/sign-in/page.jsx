@@ -15,7 +15,7 @@ export default function Dashboard() {
             <h1 className="text-3xl font-bold">Login</h1>
             <p className="text-balance text-muted-foreground">
               Enter your email below to login to your account. <br /> name:
-              admin <br /> pass: admin@123
+              admin <br /> pass: Admin@123
             </p>
           </div>
           <SignInForm />
